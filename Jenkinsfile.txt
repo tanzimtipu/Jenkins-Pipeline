@@ -38,5 +38,9 @@ pipeline {
                 echo "deploy the code to the production environment using the environment variable specifying the environment name: ${env.PRODUCTION_ENVIRONMENT}"
             }
         }
+        stage('Complete') {
+            steps {
+                echo "Completion Test"
+            }
     }
 }
