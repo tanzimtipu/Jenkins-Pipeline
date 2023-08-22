@@ -42,5 +42,5 @@ pipeline {
             steps {
                 echo "Completion Test"
             }
-    }
+        }
 }
