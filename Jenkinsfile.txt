@@ -12,6 +12,16 @@ pipeline {
                 echo 'Running unit and integration tests...'
                 echo 'Tools to be used: JUnit for unit tests, TestNG for integration tests'
             }
+            post {
+                always {
+                    emailext(
+                        to: 'tanzimtipu@gmail.com',
+                        subject: "Jenkins Pipeline: Unit and Integration Tests ${currentBuild.result ?: 'SUCCESS'}",
+                        body: 'Check the attachment for logs.',
+                        attachLog: true
+                    )
+                }
+            }
         }
         stage('Code Analysis') {
             steps {
@@ -23,6 +33,16 @@ pipeline {
             steps {
                 echo 'Performing security scan...'
                 echo 'Tool to be used: OWASP Dependency-Check'
+            }
+            post {
+                always {
+                    emailext(
+                        to: 'tanzimtipu@gmail.com',
+                        subject: "Jenkins Pipeline: Security Scan ${currentBuild.result ?: 'SUCCESS'}",
+                        body: 'Check the attachment for logs.',
+                        attachLog: true
+                    )
+                }
             }
         }
         stage('Deploy to Staging') {
