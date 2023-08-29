@@ -14,7 +14,7 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 script {
-                    def scannerHome = tool name: 'Analysis', type: 'SonarQube Scanner'
+                    def scannerHome = tool name: 'sq1', type: 'SonarQube Scanner'
                     bat "${scannerHome}/bin/sonar-scanner"
                 }
             }
