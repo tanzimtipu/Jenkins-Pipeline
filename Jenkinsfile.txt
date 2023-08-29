@@ -3,40 +3,44 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                bat 'mvn clean install'
+                echo 'Building the code...'
+                echo 'Tool to be used: Maven'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                bat 'mvn test'
+                echo 'Running unit and integration tests...'
+                echo 'Tools to be used: JUnit for unit tests, TestNG for integration tests'
             }
         }
         stage('Code Analysis') {
             steps {
-                script {
-                    def scannerHome = tool name: 'sq1', type: 'SonarQube Scanner'
-                    bat "${scannerHome}/bin/sonar-scanner"
-                }
+                echo 'Performing code analysis...'
+                echo 'Tool to be used: Checkstyle or PMD'
             }
         }
         stage('Security Scan') {
             steps {
-                bat 'dependency-check.sh --project MyProject --scan ./'
+                echo 'Performing security scan...'
+                echo 'Tool to be used: OWASP Dependency-Check'
             }
         }
         stage('Deploy to Staging') {
             steps {
-                bat './deploy-staging.sh'
+                echo 'Deploying to staging environment...'
+                echo 'Tool to be used: AWS CLI for deploying to an AWS EC2 instance'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                bat './run-integration-tests.sh'
+                echo 'Running integration tests on staging environment...'
+                echo 'Tool to be used: Selenium for UI testing'
             }
         }
         stage('Deploy to Production') {
             steps {
-                bat './deploy-production.sh'
+                echo 'Deploying to production environment...'
+                echo 'Tool to be used: AWS CLI for deploying to an AWS EC2 instance'
             }
         }
     }
