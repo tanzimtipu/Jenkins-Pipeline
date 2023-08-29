@@ -13,7 +13,10 @@ pipeline {
         }
         stage('Code Analysis') {
             steps {
-                bat 'mvn sonar:sonar'
+                script {
+                    def scannerHome = tool name: 'Analysis', type: 'SonarQube Scanner'
+                    bat "${scannerHome}/bin/sonar-scanner"
+                }
             }
         }
         stage('Security Scan') {
