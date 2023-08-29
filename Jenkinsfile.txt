@@ -1,46 +1,39 @@
 pipeline {
-    agent any 
-    environment {
-        DIRECTORY_PATH = 'C:/jenkins'
-        TESTING_ENVIRONMENT = 'testing-env'
-        PRODUCTION_ENVIRONMENT = 'Tanzim'
-    }
+    agent any
     stages {
         stage('Build') {
             steps {
-                echo 'fetch the source code from the directory path specified by the environment variable'
-                echo 'compile the code and generate any necessary artifacts'
+                sh 'mvn clean install'
             }
         }
-        stage('Test') {
+        stage('Unit and Integration Tests') {
             steps {
-                echo 'unit tests'
-                echo 'integration tests'
+                sh 'mvn test'
             }
         }
-        stage('Code Quality Check') {
+        stage('Code Analysis') {
             steps {
-                echo 'check the quality of the code'
+                sh 'mvn sonar:sonar'
             }
         }
-        stage('Deploy') {
+        stage('Security Scan') {
             steps {
-                echo 'deploy the application to a testing environment specified by the environment variable'
+                sh 'dependency-check.sh --project MyProject --scan ./'
             }
         }
-        stage('Approval') {
+        stage('Deploy to Staging') {
             steps {
-                sleep 10
+                sh './deploy-staging.sh'
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                sh './run-integration-tests.sh'
             }
         }
         stage('Deploy to Production') {
             steps {
-                echo "deploy the code to the production environment using the environment variable specifying the environment name: ${env.PRODUCTION_ENVIRONMENT}"
-            }
-        }
-        stage('Complete') {
-            steps {
-                echo "Completion Test"
+                sh './deploy-production.sh'
             }
         }
     }
