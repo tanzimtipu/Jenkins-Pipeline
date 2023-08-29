@@ -8,52 +8,52 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building the code using Maven to compile and package it.'
+                // Building the code using Maven to compile and package it.
+                echo 'Building the code using Maven.'
                 sh 'mvn clean install'
             }
-            description: 'Build the code using Maven as the build automation tool.'
         }
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running unit and integration tests using JUnit and TestNG.'
+                // Running unit and integration tests using JUnit and TestNG.
+                echo 'Running unit and integration tests.'
                 sh 'mvn test'
             }
-            description: 'Run unit tests with JUnit and integration tests with TestNG.'
         }
         stage('Code Analysis') {
             steps {
-                echo 'Analyzing the code quality using SonarQube.'
+                // Analyzing the code quality using SonarQube.
+                echo 'Analyzing the code quality.'
                 sh 'mvn sonar:sonar'
             }
-            description: 'Integrate SonarQube for code analysis.'
         }
         stage('Security Scan') {
             steps {
-                echo 'Performing security scan using OWASP Dependency-Check.'
+                // Performing security scan using OWASP Dependency-Check.
+                echo 'Performing security scan.'
                 sh 'dependency-check.sh --project MyProject --scan ./'
             }
-            description: 'Use OWASP Dependency-Check for security scanning.'
         }
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying to staging server on AWS EC2 instance.'
+                // Deploying to staging server on AWS EC2 instance.
+                echo 'Deploying to staging server.'
                 sh './deploy-to-staging.sh'
             }
-            description: 'Deploy the application to a staging server on AWS EC2.'
         }
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Running integration tests on staging environment using Postman.'
+                // Running integration tests on staging environment using Postman.
+                echo 'Running integration tests on staging.'
                 sh 'newman run my-collection.postman_collection.json'
             }
-            description: 'Run integration tests on staging using Postman.'
         }
         stage('Deploy to Production') {
             steps {
-                echo "Deploying to production server on AWS EC2 instance."
+                // Deploying to production server on AWS EC2 instance.
+                echo 'Deploying to production server.'
                 sh './deploy-to-production.sh'
             }
-            description: 'Deploy the application to a production server on AWS EC2.'
         }
     }
 }
