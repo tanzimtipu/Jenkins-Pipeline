@@ -2,57 +2,45 @@ pipeline {
     agent any 
     environment {
         DIRECTORY_PATH = 'C:/jenkins'
-        STAGING_ENVIRONMENT = 'staging-env'
-        PRODUCTION_ENVIRONMENT = 'prod-env'
+        TESTING_ENVIRONMENT = 'testing-env'
+        PRODUCTION_ENVIRONMENT = 'Tanzim'
     }
     stages {
         stage('Build') {
             steps {
-                // Building the code using Maven to compile and package it.
-                echo 'Building the code using Maven.'
-                sh 'mvn clean install'
+                echo 'fetch the source code from the directory path specified by the environment variable'
+                echo 'compile the code and generate any necessary artifacts'
             }
         }
-        stage('Unit and Integration Tests') {
+        stage('Test') {
             steps {
-                // Running unit and integration tests using JUnit and TestNG.
-                echo 'Running unit and integration tests.'
-                sh 'mvn test'
+                echo 'unit tests'
+                echo 'integration tests'
             }
         }
-        stage('Code Analysis') {
+        stage('Code Quality Check') {
             steps {
-                // Analyzing the code quality using SonarQube.
-                echo 'Analyzing the code quality.'
-                sh 'mvn sonar:sonar'
+                echo 'check the quality of the code'
             }
         }
-        stage('Security Scan') {
+        stage('Deploy') {
             steps {
-                // Performing security scan using OWASP Dependency-Check.
-                echo 'Performing security scan.'
-                sh 'dependency-check.sh --project MyProject --scan ./'
+                echo 'deploy the application to a testing environment specified by the environment variable'
             }
         }
-        stage('Deploy to Staging') {
+        stage('Approval') {
             steps {
-                // Deploying to staging server on AWS EC2 instance.
-                echo 'Deploying to staging server.'
-                sh './deploy-to-staging.sh'
-            }
-        }
-        stage('Integration Tests on Staging') {
-            steps {
-                // Running integration tests on staging environment using Postman.
-                echo 'Running integration tests on staging.'
-                sh 'newman run my-collection.postman_collection.json'
+                sleep 10
             }
         }
         stage('Deploy to Production') {
             steps {
-                // Deploying to production server on AWS EC2 instance.
-                echo 'Deploying to production server.'
-                sh './deploy-to-production.sh'
+                echo "deploy the code to the production environment using the environment variable specifying the environment name: ${env.PRODUCTION_ENVIRONMENT}"
+            }
+        }
+        stage('Complete') {
+            steps {
+                echo "Completion Test"
             }
         }
     }
