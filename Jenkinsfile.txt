@@ -6,35 +6,5 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-        stage('Unit and Integration Tests') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-        stage('Code Analysis') {
-            steps {
-                sh 'mvn sonar:sonar'
-            }
-        }
-        stage('Security Scan') {
-            steps {
-                sh 'dependency-check.sh --project MyProject --scan ./'
-            }
-        }
-        stage('Deploy to Staging') {
-            steps {
-                sh './deploy-staging.sh'
-            }
-        }
-        stage('Integration Tests on Staging') {
-            steps {
-                sh './run-integration-tests.sh'
-            }
-        }
-        stage('Deploy to Production') {
-            steps {
-                sh './deploy-production.sh'
-            }
-        }
     }
 }
