@@ -63,7 +63,7 @@ pipeline {
                 echo 'Tool to be used: AWS CLI for deploying to an AWS EC2 instance'
             }
         }
-        stage('Testing New Commit') {
+        stage('New Commit Test') {
             steps {
                 echo 'Commit changes applied successfully'
             }
